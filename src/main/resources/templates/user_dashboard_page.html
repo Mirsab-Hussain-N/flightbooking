@@ -8,7 +8,7 @@
     <div class="container">
       <div class="pull-right">
         <br />
-        <a href="main_page.html">
+        <a th:href="@{main_page}">
             <button type="button" class="btn btn-primary">Log Out</button>
         </a>
       </div>
@@ -20,13 +20,13 @@
       <div class="mt-4">
         <br />
         <br />
-        <a href="book_ticket_page.html">
+        <a th:href="@{book_ticket_page}">
             <button type="button" class="btn btn-primary">Book Tickets</button>
         </a> 
-        <a href="search_booked_ticket_details_page.html">
+        <a th:href="@{search_booked_ticket_details_page}">
           <button type="button" class="btn btn-primary">Search Flight</button>
         </a>
-        <a href="cancel_ticket_page.html">
+        <a th:href="@{cancel_ticket_page}">
           <button type="button" class="btn btn-primary">Cancel Ticket</button>
         </a>
       </div>
