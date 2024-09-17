@@ -34,5 +34,114 @@
             </a>
         </form>
     </div>
+    <script>
+        let passengerCount = 1;
+        const passengers = [];
+  
+        function insertPassengerComponent(classType) {
+          const passengerComponent = document.createElement("div");
+          passengerComponent.innerHTML = `
+                  <div class="passenger-details" data-class="${classType}">
+                      <hr />
+                      <h4>Passenger Details (${passengerCount}) - Class ${classType}</h4>
+                      <div class="form-group">
+                          <label for="passenger-name-${passengerCount}">Passenger Name:</label>
+                          <input type="text" class="form-control" id="passenger-name-${passengerCount}" required />
+                      </div>
+                      <div class="form-group">
+                          <label for="age-${passengerCount}">Age:</label>
+                          <input type="number" class="form-control" id="age-${passengerCount}" required />
+                      </div>
+                      <div class="form-group">
+                          <label for="gender-group-${passengerCount}">Gender</label>
+                          <div id="gender-group-${passengerCount}">
+                              <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" name="gender-${passengerCount}" id="male-${passengerCount}" value="male" checked>
+                                  <label class="form-check-label" for="male-${passengerCount}">Male</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                  <input class="form-check-input" type="radio" name="gender-${passengerCount}" id="female-${passengerCount}" value="female">
+                              <label class="form-check-label" for="female-${passengerCount}">Female</label>
+                          </div>
+                          <div class="form-check form-check-inline">
+                              <input class="form-check-input" type="radio" name="gender-${passengerCount}" id="transgender-${passengerCount}" value="transgender">
+                              <label class="form-check-label" for="transgender-${passengerCount}">Transgender</label>
+                          </div>
+                      </div>
+                  </div>
+              </div>`;
+          const passengerDetailsContainer = document.querySelector(
+            "#passenger-details-container"
+          );
+          passengerDetailsContainer.appendChild(passengerComponent);
+          passengers.push(passengerComponent);
+          passengerCount++;
+        }
+  
+        document.addEventListener("DOMContentLoaded", function () {
+          const urlParams = new URLSearchParams(window.location.search);
+          const bookedSeatsByClass = JSON.parse(
+            decodeURIComponent(urlParams.get("bookedSeatsByClass"))
+          );
+  
+          let classSummary = "<ul>";
+          Object.entries(bookedSeatsByClass).forEach(([classType, seats]) => {
+            if (seats.length > 0) {
+              classSummary += `
+                <li>
+                  Class ${classType}: ${seats.length} passenger(s)
+                </li>
+              `;
+              seats.forEach(() => {
+                insertPassengerComponent(classType);
+              });
+            }
+          });
+          classSummary += "</ul>";
+          document.getElementById("class-summary").innerHTML = classSummary;
+        });
+  
+        function getPassengerDetails() {
+          const passengerDetails = [];
+          passengers.forEach((passenger, index) => {
+            const passengerName = passenger.querySelector(
+              `#passenger-name-${index + 1}`
+            ).value;
+            const age = passenger.querySelector(`#age-${index + 1}`).value;
+            const gender = passenger.querySelector(
+              `input[name="gender-${index + 1}"]:checked`
+            ).value;
+            const classType =
+              passenger.querySelector(".passenger-details").dataset.class;
+  
+            passengerDetails.push({
+              passengerName,
+              age,
+              gender,
+              classType,
+            });
+          });
+          console.log(passengerDetails);
+          return passengerDetails;
+        }
+  
+        function handleSubmit() {
+          const email = document.getElementById("email").value;
+          const mobileNumber = document.getElementById("mobile-number").value;
+          const passengerDetails = getPassengerDetails();
+          const searchParams = new URLSearchParams(window.location.search);
+          const bookedSeatsByClass = searchParams.get("bookedSeatsByClass");
+          const trainId = searchParams.get("trainId");
+  
+          const queryString = $.param({
+            trainId: trainId,
+            email: email,
+            mobileNumber: mobileNumber,
+            passengerDetails: JSON.stringify(passengerDetails),
+            bookedSeatsByClass: bookedSeatsByClass,
+          });
+          window.location.href = `payment_page?${queryString}`;
+        }
+      </script>
 </body>
 </html>

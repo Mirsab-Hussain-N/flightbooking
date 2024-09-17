@@ -51,11 +51,10 @@
               <a th:href="@{forgot_admin_password_page}">Forgot Password ?</a>
             </div>
 
-            <button type="button" class="btn btn-primary btn-block">
+            <button type="submit" class="btn btn-primary btn-block">
               <a
                 th:href="@{admin_dashboard_page}"
-                style="color: white; text-decoration: none"
-              >
+                style="color: white; text-decoration: none">
                 Login
               </a>
             </button>
@@ -80,5 +79,42 @@
         </div>
       </div>
     </div>
+    <script>
+      $(document).ready(function () {
+        $("#loginForm").submit(function (e) {
+          e.preventDefault();
+          const username = $("#usr").val();
+          const password = $("#pwd").val();
+
+          $.get(
+            `/api/admin-login?username=${username}&password=${password}`,
+            function (data, status) {
+              if (data.status === 200) {
+                console.log(data);
+                $("#messageContainer").html(`
+                <div class="alert alert-success">
+                  <strong>Success!</strong> Logged in successfully.
+                </div>
+              `);
+                localStorage.setItem("aadhar", data.message);
+                window.location.href = `/admin_dashboard_page`;
+              } else {
+                $("#messageContainer").html(`
+                <div class="alert alert-danger">
+                  <strong>Error!</strong> Invalid username or password.
+                </div>
+              `);
+              }
+            }
+          ).fail(function () {
+            $("#messageContainer").html(`
+              <div class="alert alert-danger">
+                <strong>Error!</strong> Unable to connect to the server. Please try again later.
+              </div>
+            `);
+          });
+        });
+      });
+    </script>
   </body>
 </html>

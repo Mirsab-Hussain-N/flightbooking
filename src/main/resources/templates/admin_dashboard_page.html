@@ -51,5 +51,89 @@
         </div>
       </div>
     </div>
+    <script>
+      function createTrainDetailElement(
+        train_id,
+        train_name,
+        from,
+        to,
+        date,
+        time
+      ) {
+        const trainDetails = document.createElement("div");
+        trainDetails.className = "col-md-12";
+        trainDetails.style.border = "1px solid #ddd";
+        trainDetails.style.borderRadius = "5px";
+        trainDetails.style.padding = "15px";
+        trainDetails.style.marginBottom = "20px";
+
+        trainDetails.innerHTML = `
+    <h2>${train_name} <small class="text-muted">#${train_id}</small></h2>
+    <div class="row">
+      <div class="col-xs-6">
+        <small>From:</small>
+        <p class="lead"><strong>${from}</strong></p>
+      </div>
+      <div class="col-xs-6">
+        <small>To:</small>
+        <p class="lead"><strong>${to}</strong></p>
+      </div>
+      <div class="col-xs-6">
+        <p>Train Date: ${date}</p>
+      </div>
+      <div class="col-xs-6">
+        <p class="lead">
+          Train Time
+          <span class="text-primary" style="font-size: 32px">
+            <strong>${time}</strong>
+          </span>
+        </p>
+      </div>
+    </div>
+  `;
+
+        return trainDetails;
+      }
+
+      function displayTrainDetails(train_id, train_name, from, to, date, time) {
+        const container = document.getElementById("train-details-container");
+        const trainDetailElement = createTrainDetailElement(
+          train_id,
+          train_name,
+          from,
+          to,
+          date,
+          time
+        );
+        container.appendChild(trainDetailElement);
+      }
+
+      async function fetchTrainData() {
+        const endpoint = `/api/all-trains`;
+        const response = await fetch(endpoint).then((response) =>
+          response.json()
+        );
+        return response;
+      }
+
+      async function updateTrainDisplay() {
+        const container = document.getElementById("train-details-container");
+        container.innerHTML = ""; // Clear previous content
+
+        const trains = await fetchTrainData();
+        trains.forEach((train) => {
+          displayTrainDetails(
+            train.trainNumber,
+            train.trainName,
+            train.source,
+            train.destination,
+            train.date,
+            train.time
+          );
+        });
+      }
+
+      document.addEventListener("DOMContentLoaded", updateTrainDisplay);
+    </script>
 </body>
 </html>

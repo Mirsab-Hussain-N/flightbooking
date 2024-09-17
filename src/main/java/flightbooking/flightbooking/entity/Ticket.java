@@ -1,3 +1,4 @@
+//package trainbookingapp.trainbookingapp.entity;
 package flightbooking.flightbooking.entity;
 
 import jakarta.persistence.Entity;
@@ -8,6 +9,7 @@ public class Ticket {
 
   @Id
   String pnr;
+
   String train_id;
   String method;
   int amount;

@@ -1,14 +1,16 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <head>
-        <link rel="stylesheet"href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-      </head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Register Page</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </head>
   <body>
     <div class="container">
       <div class="row">
@@ -125,21 +127,79 @@
               </label>
             </div>
             <br />
-            <a th:href="@{user_login_page}">
-            <button type="button" class="btn btn-primary btn-block">
+            <button type="submit" class="btn btn-primary btn-block">
               Register
             </button>
-          </a>
           </form>
           <br />
           <div
             class="alert alert-success"
             id="successAlert"
-            style="display: none">
+            style="display: none"
+          >
             <strong>Success!</strong> Registration completed successfully
           </div>
         </div>
       </div>
     </div>
-</body>
+
+    <script>
+      $(document).ready(function () {
+        let selectedCity = "";  //empty variable because this is drop down
+        let selectedState = ""; //empty variable because this is drop down
+
+        $(".city").click(function () {  //this entire function is used to assign the selected city to the variable
+          selectedCity = $(this).text();
+          $("#cityButton").html(selectedCity + ' <span class="caret"></span>');
+        });
+
+        $(".state").click(function () {//this entire function is used to assign the selected state to the variable
+          selectedState = $(this).text();
+          $("#stateButton").html(
+            selectedState + ' <span class="caret"></span>'
+          );
+        });
+
+        $("#registerForm").submit(function (event) { //starts execution when submit is performed
+          event.preventDefault();   //stop reloading when register button is clicked
+
+          const data = {      //retrieves all the data that was entered by the user
+            username: $("#username").val(),   //these are all selectors 
+            firstName: $("#firstName").val(),
+            lastName: $("#lastName").val(),
+            aadhar: $("#aadhar").val(),
+            email: $("#email").val(),
+            mobileNumber: $("#mobile").val(),
+            address: $("#address").val(),
+            pincode: $("#pincode").val(),
+            city: selectedCity,
+            state: selectedState,
+            gender: $('input[name="gender"]:checked').val(),
+            password: $("#password").val(),
+            confirmPassword: $("#confirmPassword").val(),
+            confirm: $("#confirm").is(":checked"),
+          };
+
+          const queryString = $.param(data);  //automatically creates the url query for the object provided
+
+          $.ajax({      //unlike get() ajax already has an inbuilt method to check 
+            url: "/api/register?" + queryString,
+            type: "GET",
+            success: function (response) {
+              $("#successAlert").show();
+              window.location.href = "/user_login_page";
+            },
+            error: function (error) {
+              alert("Registration failed: " + error.responseText);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
 </html>
+
+
+<!-- <a th:href = "@{user_login_page}">
+    <button type="button" class="btn btn-primary btn-block">Register</button>
+    </a> -->

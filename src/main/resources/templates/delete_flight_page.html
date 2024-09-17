@@ -3,36 +3,68 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-    <scrip src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js">
-    </script>
-    <title>Document</title>
+    <title>Delete Train</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   </head>
   <body>
     <div class="container">
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
-    <center>
-      <br/>
-      <br/>
-      <h1>Delete Flight</h1>
-    </center>
-    <form action="admin_dashboard_page.html">
-      <div clas="form-group">
-        <label for="trainName">Flight Id:</label>
-        <input type="text" class="form-control" id="trainName"/>
+          <center>
+            <br />
+            <br />
+            <h1>Delete Train</h1>
+          </center>
+          <form action="admin-dashboard-page.html">
+            <div class="form-group">
+              <label for="trainName">Train Number:</label>
+              <input type="text" class="form-control" id="trainName" />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">
+              Delete Train
+            </button>
+          </form>
+          <br />
+        </div>
       </div>
-      <br/>
-      <br/>
-      <a th:href="@{admin_dashboard_page}">
-      <button type="submit" class="btn btn-primary btn-block">
-        Delete Flight
-      </button>
-      </a>
-    </form>
-    <br/>
-  </div>
-</div>
-</div>
+    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () { //ensure that all the DOM contents are loaded
+        const form = document.querySelector("form");
+
+        form.addEventListener("submit", function (e) {  //when submit button is clicked, perform the folliwng functions
+          e.preventDefault(); //prevents the reloading of the page 
+          const trainId = document.getElementById("trainName").value; //a variable trainId stores the id of train, however the id name is trainName make sure its trainId or keep that in mind
+
+          if (trainId) {  //if(trainId has been entered) then do the following statements
+            const query = new URLSearchParams({ trainId: trainId });
+            fetch(`/api/delete-train?${query.toString()}`, {  //endpoint is delete-train, $.query.toString() will concatenate
+              method: "GET",    
+            })
+              .then((response) => response.json())  //handles the response when it comes from server, when response comes from server it converts its to JSON format
+              .then((data) => {     //response is of 2 types: message and data type  
+                if (data.status === 200) {    //=== means strictly equal to, good practice
+                  alert("Train deleted successfully");  
+                  window.location.href = "admin_dashboard_page";   //will be redirected to admin-dashboard
+                } else {
+                  alert("Train not found");  
+                }
+              })
+              .catch((error) => {     //if some network issue or server crashes then this function executes
+                console.error("Error deleting train:", error);
+                alert("Error deleting train");
+              });
+          } else {  //the else part asks us to enter trainId
+            alert("Please enter train number");
+          }
+        });
+      });
+    </script>
   </body>
 </html>

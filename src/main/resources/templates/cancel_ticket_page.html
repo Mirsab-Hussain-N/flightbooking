@@ -30,11 +30,43 @@
          
                      
                      <a th:href="@{user_dashboard_page}">
-                      <button type="button" class="btn btn-primary">Cancel Flight</button>
+                      <button type="submit" class="btn btn-primary">Cancel Flight</button>
                   </form>
                   <br />
                </div>
              </div>
            </div>
+           <script>
+            document
+              .getElementById("cancelTicketForm")
+              .addEventListener("submit", function (e) {
+                e.preventDefault();
+      
+                const pnrNumber = document.getElementById("pnrNumber").value;
+      
+                if (document.getElementById("deductionCheckbox").checked) {
+                  const url = `/api/cancel-ticket?pnr=${pnrNumber}`;
+      
+                  fetch(url, {
+                    method: "GET",
+                  })
+                    .then((response) => {
+                      if (response.ok) {
+                        alert("Ticket has been canceled");
+                        window.location.href = "user_dashboard_page";
+                      } else {
+                        alert("Failed to cancel the ticket");
+                      }
+                    })
+                    .catch((error) => {
+                      console.error("Error:", error);
+                      alert("An error occurred while canceling the ticket");
+                    });
+                } else {
+                  alert("Please confirm the deduction by checking the checkbox");
+                }
+              });
+          </script>
      </body>
+
      </html>

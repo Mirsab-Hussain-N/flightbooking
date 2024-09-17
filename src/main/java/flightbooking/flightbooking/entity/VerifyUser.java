@@ -1,6 +1,5 @@
 package flightbooking.flightbooking.entity;
 
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
@@ -9,7 +8,9 @@ public class VerifyUser {
 
   @Id
   private String email;
+
   private String otp;
+
   public String getEmail() {
     return email;
   }

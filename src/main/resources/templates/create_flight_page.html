@@ -1,90 +1,138 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Create Flight</title>   
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-      </head>
-      <body>
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-              <center>
-                <br />
-                <br />
-                <h1>Create Flight</h1>
-              </center>
-              <form id="createTrainForm">
-                <div class="form-group">
-                  <label for="trainName">Flight Name:</label>
-                  <input type="text" class="form-control" id="trainName" />
-                </div>
-                <div class="form-group">
-                  <label for="trainId">Flight ID:</label>
-                  <input type="text" class="form-control" id="trainId" />
-                </div>
-                <div class="form-group">
-                  <label for="from">From:</label>
-                  <div class="dropdown">
-                    <button
-                      class="btn btn-default dropdown-toggle"
-                      type="button"
-                      id="fromDropdown"
-                      data-toggle="dropdown"
-                    >
-                      Select Station
-                      <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="fromDropdown">
-                      <li><a href="#" class="fromStation">Chennai</a></li>
-                      <li><a href="#" class="fromStation">Bangalore</a></li>
-                      <li><a href="#" class="fromStation">Delhi</a></li>
-                      <li><a href="#" class="fromStation">Mumbai</a></li>
-                      <li><a href="#" class="fromStation">Kerala</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="to">To:</label>
-                  <div class="dropdown">
-                    <button
-                      class="btn btn-default dropdown-toggle"
-                      type="button"
-                      id="toDropdown"
-                      data-toggle="dropdown"
-                    >
-                      Select Station
-                      <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="toDropdown">
-                      <li><a href="#" class="toStation">Chennai</a></li>
-                      <li><a href="#" class="toStation">Bangalore</a></li>
-                      <li><a href="#" class="toStation">Delhi</a></li>
-                      <li><a href="#" class="toStation">Mumbai</a></li>
-                      <li><a href="#" class="toStation">Kerala</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label for="date">Date(DD/MM/YY):</label>
-                  <input type="date" class="form-control" id="date" />
-                </div>
-                <div class="form-group">
-                  <label for="time">Time (HH:MM)</label>
-                  <input type="time" class="form-control" id="time" name="time" />
-                </div>
-                <br />
-              </form>
-              <a th:href="@{admin_dashboard_page}">
-                <button type="submit" class="btn btn-primary btn-block">
-                  Create Flight
-                </button>
-            </a>
-              <br />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Flight Page</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <center>
+            <br />
+            <br />
+            <h1>Create Train</h1>
+          </center>
+          <form id="createTrainForm">
+            <div class="form-group">
+              <label for="trainName">Train Name:</label>
+              <input type="text" class="form-control" id="trainName" />
             </div>
-          </div>
+            <div class="form-group">
+              <label for="trainId">Train ID:</label>
+              <input type="text" class="form-control" id="trainId" />
+            </div>
+            <div class="form-group">
+              <label for="from">From:</label>
+              <div class="dropdown">
+                <button
+                  class="btn btn-default dropdown-toggle"
+                  type="button"
+                  id="fromDropdown"
+                  data-toggle="dropdown"
+                >
+                  Select Station
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="fromDropdown">
+                  <li><a href="#" class="fromStation">Chennai</a></li>
+                  <li><a href="#" class="fromStation">Bangalore</a></li>
+                  <li><a href="#" class="fromStation">Delhi</a></li>
+                  <li><a href="#" class="fromStation">Mumbai</a></li>
+                  <li><a href="#" class="fromStation">Kerala</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="to">To:</label>
+              <div class="dropdown">
+                <button
+                  class="btn btn-default dropdown-toggle"
+                  type="button"
+                  id="toDropdown"
+                  data-toggle="dropdown"
+                >
+                  Select Station
+                  <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="toDropdown">
+                  <li><a href="#" class="toStation">Chennai</a></li>
+                  <li><a href="#" class="toStation">Bangalore</a></li>
+                  <li><a href="#" class="toStation">Delhi</a></li>
+                  <li><a href="#" class="toStation">Mumbai</a></li>
+                  <li><a href="#" class="toStation">Kerala</a></li>
+                </ul>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="date">Date(DD/MM/YY):</label>
+              <input type="date" class="form-control" id="date" />
+            </div>
+            <div class="form-group">
+              <label for="time">Time (HH:MM)</label>
+              <input type="time" class="form-control" id="time" name="time" />
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary btn-block">
+              Create Train
+            </button>
+          </form>
+          <br />
         </div>
-</body>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () { //ensures all the html docu are fully loaded
+        let selectedFrom = "";    //empty variables;
+        let selectedTo = "";     //empty variables;
+
+        $(".fromStation").click(function () {   //. (dot) means class selector
+          selectedFrom = $(this).text();    //assigns the selected station to the variable
+          $("#fromDropdown").html(      
+            selectedFrom + ' <span class="caret"></span>'
+          );
+        });
+
+        $(".toStation").click(function () {   //same process happens here 
+          selectedTo = $(this).text();
+          $("#toDropdown").html(selectedTo + ' <span class="caret"></span>');
+        });
+
+        $("#createTrainForm").submit(function (event) { //when a submit event occurs
+          event.preventDefault();     //it prevents the refreshing/ reloading of the webpage
+
+          const data = {          //used to store all the data that are inputted by user, that contains a list of key value pairs
+            trainName: $("#trainName").val(),   //$ - selectors, manipulates the html elements, wherever the id trainName, the input is stored in the variable trainName
+            trainNumber: $("#trainId").val(),   //.val - gets the value
+            source: selectedFrom,
+            destination: selectedTo,
+            date: $("#date").val().split("-").reverse().join("-"),  //formate of date is yy-mm-dd, but since our date is dd-mm-yy, we are spliting it then reversing it to get the appropriate date format
+            time: $("#time").val(),
+          };
+
+          const queryString = $.param(data);    //sending the entire data in the form of url as parameters!!!!!!!!!!!! (when we write on url)
+
+          $.ajax({    //function to send data to the server of api/create-train
+            url: "/api/create-train?" + queryString,
+            type: "GET",
+            success: function (response) {
+              alert("Train created successfully");
+              window.location.href = "/admin_dashboard_page";
+            },
+            error: function (error) {
+              alert("Failed to create train: " + error.responseText);
+            },
+          });
+        });
+      });
+    </script>
+  </body>
 </html>

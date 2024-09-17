@@ -79,5 +79,42 @@
         </div>
       </div>
     </div>
+    <script>
+      $(document).ready(function () {   //must start with this for JQuery only then it loads
+        $("#loginForm").submit(function (e) {   //adds an event list on the DOM called loginForm, so whenever this form is submitted it will perform the respective tasks
+          e.preventDefault();       //to prevent the automatic reloading on the form when submit is clicked. So it doesnt allow the page to be reloaded
+          const username = $("#usr").val(); 
+          const password = $("#pwd").val();
+
+          $.get(    
+            `/api/login?username=${username}&password=${password}`,
+            function (data, status) {
+              if (data.status === 200) {    
+                console.log(data);
+                $("#messageContainer").html(`
+                <div class="alert alert-success">
+                  <strong>Success!</strong> Logged in successfully.
+                </div>
+              `);
+                localStorage.setItem("aadhar", data.message);
+                window.location.href = `/user_dashboard_page`;
+              } else {
+                $("#messageContainer").html(`
+                <div class="alert alert-danger">
+                  <strong>Error!</strong> Invalid username or password.
+                </div>
+              `);
+              }
+            }
+          ).fail(function () {
+            $("#messageContainer").html(`
+              <div class="alert alert-danger">
+                <strong>Error!</strong> Unable to connect to the server. Please try again later.
+              </div>
+            `);
+          });
+        });
+      });
+    </script>
   </body>
 </html>

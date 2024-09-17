@@ -1,29 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Train</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
           <center>
             <br />
             <br />
-            <h1>Edit Flight</h1>
+            <h1>Edit Train</h1>
           </center>
-          <form id="createTrainForm">
+          <form id="edit-train-form">
             <div class="form-group">
-              <label for="trainName">Flight Name :</label>
-              <input type="text" class="form-control" id="trainName" />
-            </div>
-            <div class="form-group">
-              <label for="trainId">Flight ID :</label>
+              <label for="trainId">Train ID:</label>
               <input type="text" class="form-control" id="trainId" />
             </div>
             <div class="form-group">
-              <label for="from">From :</label>
+              <label for="trainName">Train Name:</label>
+              <input type="text" class="form-control" id="trainName" />
+            </div>
+            <div class="form-group">
+              <label for="from">From:</label>
               <div class="dropdown">
                 <button
                   class="btn btn-default dropdown-toggle"
@@ -34,17 +41,21 @@
                   Select Station
                   <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="fromDropdown">
-                  <li><a href="#" class="fromStation">Chennai</a></li>
-                  <li><a href="#" class="fromStation">Bangalore</a></li>
-                  <li><a href="#" class="fromStation">Delhi</a></li>
-                  <li><a href="#" class="fromStation">Mumbai</a></li>
-                  <li><a href="#" class="fromStation">Kerala</a></li>
+                <ul
+                  class="dropdown-menu"
+                  id="from-station-list"
+                  aria-labelledby="fromDropdown"
+                >
+                  <li><a href="#">Chennai</a></li>
+                  <li><a href="#">Bangalore</a></li>
+                  <li><a href="#">Delhi</a></li>
+                  <li><a href="#">Mumbai</a></li>
+                  <li><a href="#">Kerala</a></li>
                 </ul>
               </div>
             </div>
             <div class="form-group">
-              <label for="to">To :</label>
+              <label for="to">To:</label>
               <div class="dropdown">
                 <button
                   class="btn btn-default dropdown-toggle"
@@ -55,12 +66,16 @@
                   Select Station
                   <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="toDropdown">
-                  <li><a href="#" class="toStation">Chennai</a></li>
-                  <li><a href="#" class="toStation">Bangalore</a></li>
-                  <li><a href="#" class="toStation">Delhi</a></li>
-                  <li><a href="#" class="toStation">Mumbai</a></li>
-                  <li><a href="#" class="toStation">Kerala</a></li>
+                <ul
+                  class="dropdown-menu"
+                  id="to-station-list"
+                  aria-labelledby="toDropdown"
+                >
+                  <li><a href="#">Chennai</a></li>
+                  <li><a href="#">Bangalore</a></li>
+                  <li><a href="#">Delhi</a></li>
+                  <li><a href="#">Mumbai</a></li>
+                  <li><a href="#">Kerala</a></li>
                 </ul>
               </div>
             </div>
@@ -70,16 +85,117 @@
             </div>
             <div class="form-group">
               <label for="time">Time (HH:MM)</label>
-              <input type="time" class="form-control" id="time" name="time" />
+              <input type="time" class="form-control" id="time" />
             </div>
             <br />
-            
-            <a th:href="@{admin_dashboard_page}">
-                <button type="button" class="btn btn-primary">Edit Flight</button>
-            </a>
+            <button type="submit" class="btn btn-primary btn-block">
+              Update Train
+            </button>
           </form>
           <br />
         </div>
       </div>
     </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const trainIdInput = document.getElementById("trainId");
+        const form = document.getElementById("edit-train-form");
+
+        document
+          .getElementById("from-station-list")
+          .addEventListener("click", function (e) {
+            if (e.target.tagName === "A") {
+              document.getElementById("fromDropdown").innerText =
+                e.target.innerText;
+            }
+          });
+
+        document
+          .getElementById("to-station-list")
+          .addEventListener("click", function (e) {
+            if (e.target.tagName === "A") {
+              document.getElementById("toDropdown").innerText =
+                e.target.innerText;
+            }
+          });
+
+        function fetchTrainDetails(trainId) {
+          fetch(`/api/search-train-by-id?trainId=${trainId}`)
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              if (data) {
+                const train = data;
+                document.getElementById("trainName").value = train.trainName;
+                document.getElementById("trainId").value = train.trainNumber;
+                document.getElementById("fromDropdown").innerText =
+                  train.source;
+                document.getElementById("toDropdown").innerText =
+                  train.destination;
+                document.getElementById("date").value = train.date
+                  .split("-")
+                  .reverse()
+                  .join("-");
+                document.getElementById("time").value = train.time
+                  ? train.time
+                  : "00:00";
+              } else {
+                alert("Train not found");
+              }
+            })
+            .catch((error) =>
+              console.error("Error fetching train details:", error)
+            );
+        }
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const trainId = trainIdInput.value;
+          const trainName = document.getElementById("trainName").value;
+          const from = document.getElementById("fromDropdown").innerText;
+          const to = document.getElementById("toDropdown").innerText;
+          const date = document
+            .getElementById("date")
+            .value.split("-")
+            .reverse()
+            .join("-");
+          const time = document.getElementById("time").value;
+
+          const queryParams = new URLSearchParams({
+            trainNumber: trainId,
+            trainName: trainName,
+            source: from,
+            destination: to,
+            date: date,
+            time: time,
+          });
+
+          fetch(`/api/edit-train?${queryParams.toString()}`, {
+            method: "GET",
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log(data);
+              if (data.status == 200) {
+                alert("Train details updated successfully");
+                window.location.href = "admin_dashboard_page";
+              } else {
+                alert("Error updating train details");
+              }
+            })
+            .catch((error) =>
+              console.error("Error updating train details:", error)
+            );
+        });
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const trainId = urlParams.get("trainId");
+        if (trainId) {
+          trainIdInput.value = trainId;
+          fetchTrainDetails(trainId);
+        }
+      });
+    </script>
+  </body>
 </html>

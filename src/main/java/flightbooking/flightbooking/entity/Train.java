@@ -1,11 +1,14 @@
 package flightbooking.flightbooking.entity;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
 public class Train {
+
   @Id
   private String train_number;
+
   private String train_name;
   private String source;
   private String destination;
@@ -43,6 +46,7 @@ public class Train {
   public void setDestination(String destination) {
     this.destination = destination;
   }
+
 
   public String getDate() {
     return date;
