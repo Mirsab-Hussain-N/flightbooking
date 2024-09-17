@@ -1,72 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> View Booked Ticket Page</title>
-    <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-     </head>
-     <body>
-        <div class="container">
-           <div class="row">
-               <div class="col-md-6 col-md-offset-3">
-                  <center>
-                      <br />
-                      <br />
-                      <h1>Cancel Ticket</h1>
-                  </center>
-                  <form action="#" id="cancelTicketForm">
-                     <div class="form-group">
-                        <label for="trainName">PNR Number:</label>
-                        <input type="text" class="form-control" id="pnrNumber" />
-                     </div>
-                     <div class="checkbox">
-                        <label>
-                            <input type="checkbox" value="" id="deductionCheckbox" />5% of amount will be deducted from total price
-                        </label>
-                     </div>
-         
-                     
-                     <a th:href="@{user_dashboard_page}">
-                      <button type="submit" class="btn btn-primary">Cancel Flight</button>
-                  </form>
-                  <br />
-               </div>
-             </div>
-           </div>
-           <script>
-            document
-              .getElementById("cancelTicketForm")
-              .addEventListener("submit", function (e) {
-                e.preventDefault();
-      
-                const pnrNumber = document.getElementById("pnrNumber").value;
-      
-                if (document.getElementById("deductionCheckbox").checked) {
-                  const url = `/api/cancel-ticket?pnr=${pnrNumber}`;
-      
-                  fetch(url, {
-                    method: "GET",
-                  })
-                    .then((response) => {
-                      if (response.ok) {
-                        alert("Ticket has been canceled");
-                        window.location.href = "user_dashboard_page";
-                      } else {
-                        alert("Failed to cancel the ticket");
-                      }
-                    })
-                    .catch((error) => {
-                      console.error("Error:", error);
-                      alert("An error occurred while canceling the ticket");
-                    });
-                } else {
-                  alert("Please confirm the deduction by checking the checkbox");
-                }
-              });
-          </script>
-     </body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cancel Ticket Page</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <center>
+            <br />
+            <br />
+            <h1>Cancel Ticket</h1>
+          </center>
+          <form action="#" id="cancelTicketForm">
+            <div class="form-group">
+              <label for="trainName">PNR Number:</label>
+              <input type="text" class="form-control" id="pnrNumber" />
+            </div>
+            <div class="form-group">
+              <label for="trainId">Mobile Number:</label>
+              <input type="text" class="form-control" id="trainId" />
+            </div>
+            <div class="form-group">
+              <label for="trainId">Email:</label>
+              <input type="text" class="form-control" id="trainId" />
+            </div>
+            <div class="checkbox">
+              <label
+                ><input type="checkbox" value="" id="deductionCheckbox" />5% of
+                amount will be deducted from total price
+              </label>
+            </div>
 
-     </html>
+            <br />
+            <button type="submit" class="btn btn-primary btn-block">
+              Cancel Ticket
+            </button>
+          </form>
+          <br />
+        </div>
+      </div>
+    </div>
+    <script>
+      document
+        .getElementById("cancelTicketForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const pnrNumber = document.getElementById("pnrNumber").value;
+
+          if (document.getElementById("deductionCheckbox").checked) {
+            const url = `/api/cancel-ticket?pnr=${pnrNumber}`;
+
+            fetch(url, {
+              method: "GET",
+            })
+              .then((response) => {
+                if (response.ok) {
+                  alert("Ticket has been canceled");
+                  window.location.href = "user_dashboard_page";
+                } else {
+                  alert("Failed to cancel the ticket");
+                }
+              })
+              .catch((error) => {
+                console.error("Error:", error);
+                alert("An error occurred while canceling the ticket");
+              });
+          } else {
+            alert("Please confirm the deduction by checking the checkbox");
+          }
+        });
+    </script>
+    <!-- Go back to <a href="user-dashboard-page.html">User Dashboard</a> -->
+  </body>
+</html>

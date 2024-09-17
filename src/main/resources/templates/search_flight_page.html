@@ -1,116 +1,244 @@
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"/>
-    <script src="https://bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
-<body>
-    <!-- <center>
-        <h1>Search Movie</h1>
-        <br/>
-        <br/>
-        <br/>
-
-        <a href = "user_login_page.html">Search Movie</a>
-        <br/> 
-    </center> -->
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ticket Search Page</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </head>
+  <body>
     <br />
     <div class="container">
-        <h1>Search Flight</h1>
-        <form id="train-form">
-            <div class="row">
-                <div class="col-sm-6">
-                    <label for="from">From:</label>
-                    <div class="dropdown">
-                        <button 
-                        class="btn btn-default dropdown-toggle"
-                        type = "button"
-                        id="fromDropdown"
-                        data-toggle="dropdown"
-                        style="
-                            width: 100%;
-                            display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                        "
-                    >
-
-                    City <span class="caret"></span>
-                    </button>
-                    <ul
-                        class="dropdown-menu"
-                        id="station-list-from"
-                        style="width: 100%"
-                    >
-
-                        <li><a href="#">Chennai</a></li>
-                        <li><a href="#">Bangalore</a></li>
-                        <li><a href="#">Delhi</a></li>
-                        <li><a href="#">Mumbai</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <label fro="to">To:</label>
+      <h1>Search</h1>
+      <form id="train-form">
+        <div class="row">
+          <div class="col-sm-6">
+            <label for="from">From:</label>
             <div class="dropdown">
-                <button
-                    class="btn btn-default dropdown-toggle"
-                    type="button"
-                    id="toDropdown"
-                    data-toggle="dropdown"
-                    style="
-                        width: 100%;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        "
-                >
+              <button
+                class="btn btn-default dropdown-toggle"
+                type="button"
+                id="fromDropdown"
+                data-toggle="dropdown"
+                style="
+                  width: 100%;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
                 City <span class="caret"></span>
-            </button>
-            <ul
+              </button>
+              <ul
                 class="dropdown-menu"
-                id="station-list-to"
+                id="station-list-from"
                 style="width: 100%"
-            >
-
+              >
                 <li><a href="#">Chennai</a></li>
                 <li><a href="#">Bangalore</a></li>
                 <li><a href="#">Delhi</a></li>
                 <li><a href="#">Mumbai</a></li>
-        </ul>
+              </ul>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <label for="to">To:</label>
+            <div class="dropdown">
+              <button
+                class="btn btn-default dropdown-toggle"
+                type="button"
+                id="toDropdown"
+                data-toggle="dropdown"
+                style="
+                  width: 100%;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                City <span class="caret"></span>
+              </button>
+              <ul
+                class="dropdown-menu"
+                id="station-list-to"
+                style="width: 100%"
+              >
+                <li><a href="#">Chennai</a></li>
+                <li><a href="#">Bangalore</a></li>
+                <li><a href="#">Delhi</a></li>
+                <li><a href="#">Mumbai</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-sm-3">
+            <input type="date" class="form-control" id="date" />
+          </div>
+          <div class="col-sm-9">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="checkTrainAvailability()"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+        <br />
+        <div class="row" id="error-message" style="display: none">
+          <div class="col-sm-12">
+            <div class="alert alert-danger">Train not found!</div>
+          </div>
+        </div>
+      </form>
     </div>
-</div>
-</div>
+    <div id="train-details-container" class="container"></div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document
+          .getElementById("station-list-from")
+          .addEventListener("click", function (e) {
+            if (e.target.tagName === "A") {
+              document.getElementById("fromDropdown").innerText =
+                e.target.innerText;
+            }
+          });
 
-<br/>
-<div class="row">
-    <div class="col-sm-3">
-        <input type="date" class="form-control" id="date" />
-    </div>
-    
-    <div class="col-sm-9">
-        <a th:href= "@{user_login_page}">
-        <button
-            type="button"
-            class="btn btn-primary"
-        >
-        Search
-        </button>
-    </a>
-</div>
-</div>
-<br/>
+        document
+          .getElementById("station-list-to")
+          .addEventListener("click", function (e) {
+            if (e.target.tagName === "A") {
+              document.getElementById("toDropdown").innerText =
+                e.target.innerText;
+            }
+          });
+      });
 
-<div class="row" id="error-message" style="display: none">
-    <div class="col-sm-12">
-        <div class="alert alert-danger">Train not found!</div>
-    </div>
-</div>
-</form>
-</div>
-<div id="train-details-container" class="container"></div>
+      function createTrainDetailElement(
+        train_number,
+        train_name,
+        from,
+        to,
+        date,
+        time
+      ) {
+        const trainDetails = document.createElement("div");
+        trainDetails.className = "col-md-12";
+        trainDetails.style.border = "1px solid #ddd";
+        trainDetails.style.borderRadius = "5px";
+        trainDetails.style.padding = "15px";
+        trainDetails.style.marginBottom = "20px";
 
-</body>
+        trainDetails.innerHTML = `
+          <h2>${train_name} <small class="text-muted">#1234</small></h2>
+          <div class="row">
+            <div class="col-xs-6">
+              <small>From:</small>
+              <p class="lead"><strong>${from}</strong></p>
+            </div>
+            <div class="col-xs-6">
+              <small>To:</small>
+              <p class="lead"><strong>${to}</strong></p>
+           </div>
+            <div class="col-xs-6">
+              <p>Train Date: ${date}</p>
+            </div>
+            <div class="col-xs-6">
+              <p class="lead">
+                Train Time
+                <span class="text-primary" style="font-size: 32px">
+                  <strong>${time}</strong>
+                </span>
+              </p>
+            </div>
+            <div class ="col-xs-12 text-right">
+            <button type ="button" class="btn btn-sucess" onclick="redirectToLogin('${train_number}')">Book Now</button>
+            
+            </div>
+          </div>
+        `;
+
+        return trainDetails;
+      }
+
+      function redirectToLogin(train_number) {
+        localStorage.setItem("train_number", train_number);
+        if (localStorage.getItem("aadhar")) {
+          window.location.href = `/book_ticket_page?train_number=${train_number}`;
+        } else {
+          window.location.href = "/user_login_page";
+        }
+      }
+
+      function displayTrainDetails(
+        train_number,
+        train_name,
+        from,
+        to,
+        date,
+        time
+      ) {
+        const container = document.getElementById("train-details-container");
+        const trainDetailElement = createTrainDetailElement(
+          train_number,
+          train_name,
+          from,
+          to,
+          date,
+          time
+        );
+        container.appendChild(trainDetailElement);
+      }
+
+      function checkTrainAvailability() {
+        const from = document.getElementById("fromDropdown").innerText.trim();
+        const to = document.getElementById("toDropdown").innerText.trim();
+        const date = document
+          .getElementById("date")
+          .value.split("-")
+          .reverse()
+          .join("-");
+
+        const api = `/api/search-train?source=${from}&destination=${to}&date=${date}`;
+        console.log(api);
+
+        fetch(api)
+          .then((response) => response.json())
+          .then((data) => {
+            const container = document.getElementById(
+              "train-details-container"
+            );
+            container.innerHTML = "";
+            if (data && data.length > 0) {
+              document.getElementById("error-message").style.display = "none";
+              data.forEach((train) => {
+                console.log(train);
+                displayTrainDetails(
+                  train.trainNumber,
+                  train.trainName,
+                  train.source,
+                  train.destination,
+                  train.date,
+                  train.time || "N/A"
+                );
+              });
+            } else {
+              document.getElementById("error-message").style.display = "block";
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching train details:", error);
+            alert("An error occurred while fetching train details.");
+          });
+      }
+    </script>
+     
+  </body>
 </html>
