@@ -45,9 +45,24 @@ public class UserController {
     response.status = 400;
     return response;
   }
+  
+  // @GetMapping(path = "/register")
+  // public Response register(@ModelAttribute User user) {
+  //     // User user = userRepository.findByEmail(user.);
+  //     String emailId = user.getEmail();
+  //     Response response = new Response();
+  //     if (emailId != null) {
+  //         response.message = "User exists with this email";
+  //         response.status = 500;
+  //         return response;
+  //     }else{
+  //         userRepository.save(user);
+  //         response.message = "Registration Successful";
+  //         response.status = 200;
+  //         return response;
+  //     }
+  // }
 
-  // QUERY
-  // http://localhost:8080/api/register?username=dusklight00&firstName=dusk&lastName=light&email=r.rahul.developer@gmail.com&mobileNumber=999&address=boston&city=bangalore&state=karnataka&password=password&aadhar=999&pincode=123&gender=male
   @GetMapping(path = "/register")
   public Response login(@ModelAttribute User user) {
     String email = user.getEmail();
@@ -58,6 +73,7 @@ public class UserController {
     response.status = 200;
     return response;
   }
+  
 
   @GetMapping(path = "/get-user")
   public User getUser(@RequestParam String aadhar) {

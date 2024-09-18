@@ -1,26 +1,106 @@
-<head>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard Page</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+      body, html {
+        height: 100%;
+        margin: 0;
+        transition: background-color 0.4s ease;
+        background: linear-gradient(to right, rgba(251, 194, 235, 0.55), rgba(166, 193, 238, 0.55));
+      }
+      .gradient-advanced {
+        background: #a8edea;
+        background: -webkit-linear-gradient(to right, rgba(168, 237, 234, 0.5), rgba(254, 214, 227, 0.5));
+        background: linear-gradient(to right, rgba(168, 237, 234, 0.5), rgba(254, 214, 227, 0.5));
+        background-blend-mode: screen, color-dodge, overlay, difference, normal;
+        min-height: 100%;
+        padding-bottom: 50px;
+      }
+      .btn {
+        font-size: 25px;
+        margin-right: 15px;
+      }
+      .btn:hover {
+        background-color: #2E073F;
+      }
+      .action-buttons {
+        margin-top: 30px;
+        margin-left: 15px;
+      }
+      .logout-btn {
+        margin-top: 20px;
+      }
+      h1 {
+        color: white;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        margin-left: 15px;
+      }
+      .full-width {
+        width: 100%;
+        padding-right: 15px;
+      }
+      .left-align {
+        margin-right: 20px;
+      }
+      .gradient-advanced:hover {
+        background: #a8edea;
+        background: -webkit-linear-gradient(to right, rgba(93, 184, 179, 0.556), rgba(254, 214, 227, 0.5));
+        background: linear-gradient(to right, rgba(0, 255, 247, 0.505), rgba(254, 214, 227, 0.738));
+        background-blend-mode: screen, color-dodge, overlay, difference, normal;
+        min-height: 100%;
+        padding-bottom: 50px;
+        transition: 0.2 ease;
+      }
+      .train-details {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .train-details h2 {
+        margin-top: 0;
+      }
+      .train-details .row div {
+        margin-bottom: 10px;
+      }
+      .train-details .lead {
+        font-size: 18px;
+      }
+      
+    </style>
   </head>
   <body>
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="pull-right">
-            <br />
-            <a th:href="@{main_page}">
-              <button type="button" class="btn btn-primary">Logout</button>
+    <div class="gradient-advanced">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-xs-12 text-right">
+            <a href="/">
+              <button type="button" class="btn btn-primary logout-btn">
+                Logout
+              </button>
             </a>
           </div>
-          <h1 class="mt-4">
-            Good Morning, Admin<span id="user-name"></span>
-            <small class="text-muted">(Admin Dashboard)</small>
-          </h1>
-          <div class="mt-4">
-            <br />
+        </div>
+        <h1 class="mt-4" style="color:black">
+          Good Morning, Admin<span id="user-name"></span>
+          <span style="color: rgb(0, 0, 0); font-size:24px;"> (Admin Dashboard)</span>
+        </h1>
+        <div class="left-align">
+          <div class="action-buttons">
             <a th:href="@{create_flight_page}">
               <button type="button" class="btn btn-primary">
-                + Create Flight
+                + Create Train
               </button>
             </a>
             <a th:href="@{view_booked_ticket_page}">
@@ -30,27 +110,25 @@
             </a>
             <a th:href="@{delete_flight_page}">
               <button type="button" class="btn btn-primary">
-                Delete Flight
+                Delete Train
               </button>
             </a>
             <a th:href="@{edit_flight_page}">
-              <button type="button" class="btn btn-primary">Edit Flight</button>
+              <button type="button" class="btn btn-primary">Edit Train</button>
             </a>
           </div>
         </div>
       </div>
-    </div>
-    <br />
-
-    <div class="container mt-4">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <div id="train-details-container" class="row">
-            <!-- Train details will be dynamically inserted here -->
+      <br/>
+      <div class="container mt-4">
+        <div class="panel panel-default">
+          <div class="panel-body" style="background-color: #f8f9fa;border-radius: 5px;border: 1px solid #000;">
+            <div id="train-details-container" class="row">
+              <!-- Train details will be dynamically inserted here -->
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+
     <script>
       function createTrainDetailElement(
         train_id,

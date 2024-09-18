@@ -9,6 +9,11 @@
       rel="stylesheet"
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+      body {
+        background-color: #d2e0fb29;
+      }
+  </style>
   </head>
   <body>
     <center>
@@ -229,7 +234,7 @@
               document.getElementById("pnrNumber").value = ticketData.pnr;
 
               return fetch(
-                `http://localhost:8080/api/search-train-by-id?trainId=1234`
+                `/api/search-train-by-id?trainId=${ticketData.trainId}`
               )
                 .then((response) => response.json())
                 .then((trainData) => {
